@@ -18,8 +18,8 @@
 // Required Python typealiases and constants.
 //===----------------------------------------------------------------------===//
 
-//@usableFromInline
-public typealias PyObjectPointer = UnsafeMutableRawPointer
+@usableFromInline
+typealias PyObjectPointer = UnsafeMutableRawPointer
 typealias PyMethodDefPointer = UnsafeMutableRawPointer
 typealias PyCCharPointer = UnsafePointer<Int8>
 typealias PyBinaryOperation =
@@ -41,12 +41,6 @@ let Py_GE: Int32 = 5
 let Py_Initialize: @convention(c) () -> Void =
     PythonLibrary.loadSymbol(name: "Py_Initialize")
 
-let Py_Finalize: @convention(c) () -> Void =
-    PythonLibrary.loadSymbol(name: "Py_Finalize")
-
-let PyImport_AddModule: @convention(c) (PyObjectPointer) -> PyObjectPointer =
-    PythonLibrary.loadSymbol(name: "PyImport_AddModule")
-
 let Py_IncRef: @convention(c) (PyObjectPointer?) -> Void =
     PythonLibrary.loadSymbol(name: "Py_IncRef")
 
@@ -59,9 +53,6 @@ let PyImport_ImportModule: @convention(c) (
 
 let PyEval_GetBuiltins: @convention(c) () -> PyObjectPointer =
     PythonLibrary.loadSymbol(name: "PyEval_GetBuiltins")
-
-let PyEval_GetGlobals: @convention(c) () -> PyObjectPointer =
-    PythonLibrary.loadSymbol(name: "PyEval_GetGlobals")
 
 let PyRun_SimpleString: @convention(c) (PyCCharPointer) -> Void =
     PythonLibrary.loadSymbol(name: "PyRun_SimpleString")

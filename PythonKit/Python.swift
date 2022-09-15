@@ -25,8 +25,8 @@
 
 /// Typealias used when passing or returning a `PyObject` pointer with
 /// implied ownership.
-//@usableFromInline
-public typealias OwnedPyObjectPointer = PyObjectPointer
+@usableFromInline
+typealias OwnedPyObjectPointer = PyObjectPointer
 
 /// A primitive reference to a Python C API `PyObject`.
 ///
@@ -106,11 +106,11 @@ public struct PythonObject {
         reference = PyReference(consuming: pointer)
     }
     
-    public var borrowedPyObject: PyObjectPointer {
+    fileprivate var borrowedPyObject: PyObjectPointer {
         return reference.borrowedPyObject
     }
     
-    public var ownedPyObject: OwnedPyObjectPointer {
+    fileprivate var ownedPyObject: OwnedPyObjectPointer {
         return reference.ownedPyObject
     }
 }
@@ -673,20 +673,10 @@ public let Python = PythonInterface()
 public struct PythonInterface {
     /// A dictionary of the Python builtins.
     public let builtins: PythonObject
-    /// A dictionary of Python globals.
-    //public let globals: PythonObject
-    
-    /// __main__ module
-    public let main: PythonObject
     
     init() {
         Py_Initialize()   // Initialize Python
-        
-        // https://stackoverflow.com/questions/40046330/python-c-extension-pyeval-getlocals-returns-null
-        main = PythonObject(PyImport_AddModule("__main__".pythonObject.ownedPyObject))
-        
         builtins = PythonObject(PyEval_GetBuiltins())
-        //globals = PythonObject(PyEval_GetGlobals())
         
         // Runtime Fixes:
         PyRun_SimpleString("""
@@ -825,7 +815,7 @@ extension String : PythonConvertible, ConvertibleFromPython {
     }
     
     public var pythonObject: PythonObject {
-        //_ = Python // Ensure Python is initialized.
+        _ = Python // Ensure Python is initialized.
         let v = utf8CString.withUnsafeBufferPointer {
             // 1 is subtracted from the C string length to trim the trailing null
             // character (`\0`).
