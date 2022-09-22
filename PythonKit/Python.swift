@@ -25,8 +25,8 @@
 
 /// Typealias used when passing or returning a `PyObject` pointer with
 /// implied ownership.
-@usableFromInline
-typealias OwnedPyObjectPointer = PyObjectPointer
+//@usableFromInline
+public typealias OwnedPyObjectPointer = PyObjectPointer
 
 /// A primitive reference to a Python C API `PyObject`.
 ///
@@ -106,11 +106,11 @@ public struct PythonObject {
         reference = PyReference(consuming: pointer)
     }
     
-    fileprivate var borrowedPyObject: PyObjectPointer {
+    public var borrowedPyObject: PyObjectPointer {
         return reference.borrowedPyObject
     }
     
-    fileprivate var ownedPyObject: OwnedPyObjectPointer {
+    public var ownedPyObject: OwnedPyObjectPointer {
         return reference.ownedPyObject
     }
 }
