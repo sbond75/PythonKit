@@ -97,12 +97,12 @@ public struct PythonObject {
     }
     
     /// Creates a new instance and a new reference.
-    init(_ pointer: OwnedPyObjectPointer) {
+    public init(_ pointer: OwnedPyObjectPointer) {
         reference = PyReference(pointer)
     }
     
     /// Creates a new instance consuming the specified `PyObject` pointer.
-    init(consuming pointer: PyObjectPointer) {
+    public init(consuming pointer: PyObjectPointer) {
         reference = PyReference(consuming: pointer)
     }
     
